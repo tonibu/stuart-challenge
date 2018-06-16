@@ -1,10 +1,7 @@
 import {
-  PICKUP_CHECK_SUCCESS,
-  PICKUP_CHECK_ERROR,
-  PICKUP_SET_BLANK,
-  DROPOFF_CHECK_SUCCESS,
-  DROPOFF_CHECK_ERROR,
-  DROPOFF_SET_BLANK
+  CHECK_ADDRESS_SUCCESS,
+  CHECK_ADDRESS_ERROR,
+  SET_BLANK
 } from 'actions/address-actions';
 import { CREATE_JOB_SUCCESS } from 'actions/jobs-actions';
 
@@ -38,34 +35,40 @@ const getBlankPayload = () => ({
 });
 
 export default (state = defaultState, action) => {
-  let pickupPayload = {};
-  let dropoffPayload = {};
+  let payload = {};
   
   switch (action.type) {
-    case PICKUP_CHECK_SUCCESS:
-      pickupPayload = { ...action.payload, state: 'success' };
-      return { ...state, pickup: pickupPayload };
+    case CHECK_ADDRESS_SUCCESS:
+      payload = {
+        [action.addressType]: {
+          ...action.payload,
+          state: 'success',
+        },
+      };
 
-    case PICKUP_CHECK_ERROR:
-      return { ...state, pickup: getErrorPayload() };
+      return { ...state, ...payload };
 
-    case PICKUP_SET_BLANK:
-      return { ...state, pickup: getBlankPayload() };
+    case CHECK_ADDRESS_ERROR:
+      payload = {
+        [action.addressType]: getErrorPayload(),
+      };
 
-    case DROPOFF_CHECK_SUCCESS:
-      dropoffPayload = { ...action.payload, state: 'success' };
-      return { ...state, dropoff: dropoffPayload };
+      return { ...state, ...payload };
 
-    case DROPOFF_CHECK_ERROR:
-      return { ...state, dropoff: getErrorPayload() };
+    case SET_BLANK:
+      payload = {
+        [action.addressType]: getBlankPayload(),
+      };
 
-    case DROPOFF_SET_BLANK:
-      return { ...state, dropoff: getBlankPayload() }
+      return { ...state, ...payload };
 
     case CREATE_JOB_SUCCESS:
-      return { pickup: getBlankPayload(), dropoff: getBlankPayload() };
+      return {
+        pickup: getBlankPayload(),
+        dropoff: getBlankPayload()
+      };
 
     default:
       return state;
-  };
+  }
 };

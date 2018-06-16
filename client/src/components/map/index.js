@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import GoogleMap from 'google-map-react';
 import pickupMarkerImg from 'images/pickup_marker.svg';
@@ -24,11 +23,11 @@ const mapStateToProps = (state) => {
   const markers = [];
 
   map.pickupMarker && markers.push(
-    <img src={pickupMarkerImg} lat={map.pickupMarker.latitude} lng={map.pickupMarker.longitude} />
+    createMarker('pickup', pickupMarkerImg, map.pickupMarker)
   );
 
   map.dropoffMarker && markers.push(
-    <img src={dropoffMarkerImg} lat={map.dropoffMarker.latitude} lng={map.dropoffMarker.longitude} />
+    createMarker('dropoff', dropoffMarkerImg, map.dropoffMarker)
   );
 
   return {
@@ -36,5 +35,9 @@ const mapStateToProps = (state) => {
     map,
   };
 };
+
+const createMarker = (key, src, geo) => (
+  <img key={key} src={src} lat={geo.latitude} lng={geo.longitude} alt={key} />
+);
 
 export default connect(mapStateToProps)(Map);

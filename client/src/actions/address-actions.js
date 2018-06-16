@@ -1,14 +1,11 @@
 export const CHECK_ADDRESS = 'CHECK_ADDRESS';
-export const PICKUP_CHECK_SUCCESS = 'PICKUP_CHECK_SUCCESS';
-export const PICKUP_CHECK_ERROR = 'PICKUP_CHECK_ERROR';
-export const PICKUP_SET_BLANK = 'PICKUP_SET_BLANK';
-export const DROPOFF_CHECK_SUCCESS = 'DROPOFF_CHECK_SUCCESS';
-export const DROPOFF_CHECK_ERROR = 'DROPOFF_CHECK_ERROR';
-export const DROPOFF_SET_BLANK = 'DROPOFF_SET_BLANK';
+export const CHECK_ADDRESS_SUCCESS = 'CHECK_ADDRESS_SUCCESS';
+export const CHECK_ADDRESS_ERROR = 'CHECK_ADDRESS_ERROR';
+export const SET_BLANK = 'SET_BLANK';
 
 const addressType = {
-  pickup: 'PICKUP',
-  dropoff: 'DROPOFF',
+  pickup: 'pickup',
+  dropoff: 'dropoff',
 };
 
 export const checkPickupAddress = (address) => dispatch => {
@@ -35,27 +32,23 @@ export const checkAddress = (address, addressType) => (dispatch) => {
     .catch(() => dispatch(checkAddressError(addressType)));
 }
 
-export const checkAddressSuccess = (payload, addressType) => {
-  const type = `${addressType}_CHECK_SUCCESS`;
+export const checkAddressSuccess = (payload, addressType) => ({
+  type: CHECK_ADDRESS_SUCCESS,
+  addressType,
+  payload,
+});
 
-  return {
-    type,
-    payload,
-  };
-};
-
-export const checkAddressError = (addressType) => {
-  const type = `${addressType}_CHECK_ERROR`;
-
-  return {
-    type,
-  };
-};
+export const checkAddressError = (addressType) => ({
+  type: CHECK_ADDRESS_ERROR,
+  addressType,
+});
 
 export const setPickupBlank = () => ({
-  type: PICKUP_SET_BLANK,
+  type: SET_BLANK,
+  addressType: addressType.pickup,
 });
 
 export const setDropoffBlank = () => ({
-  type: DROPOFF_SET_BLANK,
+  type: SET_BLANK,
+  addressType: addressType.dropoff,
 });

@@ -16,7 +16,7 @@ const JobsForm = (props) => (
   <div className='jobs-form'>
     <form onSubmit={e => props.submitForm(e, props)}>
       <div className='jobs-form__row'>
-        <img src={props.pickupImage} className='jobs-form__icon' />
+        <img src={props.pickupImage} className='jobs-form__icon' alt='pickup' />
         <input
           type='text'
           className='jobs-form__input'
@@ -26,7 +26,7 @@ const JobsForm = (props) => (
           onBlur={props.handlePickupInputBlur} />
       </div>
       <div className='jobs-form__row'>
-        <img src={props.dropoffImage} className='jobs-form__icon' />
+        <img src={props.dropoffImage} className='jobs-form__icon' alt='dropoff' />
         <input
           type='text'
           className='jobs-form__input'
